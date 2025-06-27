@@ -21,7 +21,7 @@ Velpula Abhinay             - 22SS1A6659
 
 - 🔗 Accepts YouTube video URL
 - 🧠 Extracts transcript or applies **Automatic Speech Recognition (ASR)** via Whisper
-- 📃 Uses **T5, BART, Pegasus** transformer models for accurate summarization
+- 📃 Uses **T5, BART** transformer models for accurate summarization
 - ⚙️ Backend pipeline handles everything from audio download to final summary
 - 🌐 Available on Web, Android (Flutter), and as a Browser Extension
 - ⚡ Real-time processing and clear, human-readable output
@@ -82,13 +82,16 @@ User Input (YouTube URL)
 
 ### 🖥️ Backend Setup
 
-bash
+```bash
+
 git clone https://github.com/sanjayvarma42/video-synopsis-generator.git
+
 cd backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python app.py
+python main.py
+```
 
 ### 📱 Flutter (Android App)
 ```bash
