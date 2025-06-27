@@ -82,9 +82,11 @@ User Input (YouTube URL)
 
 ### 🖥️ Backend Setup
 
-```bash
 
-git clone https://github.com/sanjayvarma42/video-synopsis-generator.git
+Clone the github repository through the following command : git clone https://github.com/sanjayvarma42/Video_Synopsis_Generator.git
+
+
+```bash
 
 cd backend
 python3 -m venv venv
