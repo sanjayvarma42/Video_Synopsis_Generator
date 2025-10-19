@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login form</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+</head>
+<body>
+
+   <div class="bs-example">
+    <nav style="background-color: rgb(201, 18, 43);" class="navbar navbar-expand-md navbar-dark fixed-top">
+      <a href="" class="navbar-brand"><i class=""></i>&nbsp; Video Summary Genetator</a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white;" href="register"><i class="fas fa-user"></i>&nbsp; Sign up</i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white;" href="{{ url_for('login') }}"><i class="fas fa-user-shield"></i>&nbsp; Log In</i></a>
+                </li>     
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+      
+   <div class="form-container">
+      <form action="" method="post">
+         <h1>WELCOME!</h1>
+         <h3 style="font-weight:normal";>Login To Your Account</h3>
+
+         <input type="email" name="email" required placeholder="Enter your email">
+         <input type="password" name="password" required placeholder="Enter your password">
+         <input type="submit" name="submit" value="login" class="form-btn"><br>
+         <p>Don't have an account? <a href="register">Register now</a></p>
+         <p><a href="">Forgot Your Password?</a></p>
+      </form>
+   </div>
+
+</body>
+</html>

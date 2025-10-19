@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YouTube Summary</title>
+  <style>
+	html, body {
+	  margin: 0;
+	  padding: 50px;
+	  background: linear-gradient(135deg, #0e0e0e 0%, #1c1c1c 100%);
+	  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	  color: white;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  min-height: 100vh;
+	  box-sizing: border-box;
+	}
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 2rem;
+      color: white;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      background-color: #1a1a1a;
+      border: 1px solid #6b5bff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #6b5bff50;
+    }
+
+    input[type="text"] {
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-size: 16px;
+      width: 400px;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #aaa;
+      animation: type 4s steps(30, end) infinite;
+    }
+
+    @keyframes type {
+      0% { content: ""; }
+      20% { content: "P"; }
+      40% { content: "Pa"; }
+      60% { content: "Pas"; }
+      80% { content: "Past"; }
+      100% { content: "Paste YouTube video link..."; }
+    }
+
+    button {
+      background-color: #6b5bff;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button:hover {
+      background-color: #8775ff;
+      box-shadow: 0 0 8px #c2b8ff;
+    }
+
+    button::after {
+      content: "✨";
+      animation: sparkle 2s infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(-2px); opacity: 0.5; }
+    }
+
+    #result {
+      margin-top: 30px;
+      max-width: 90%;
+    }
+
+    iframe {
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    h2, h3, h4 {
+      color: #ccc;
+    }
+  </style>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+  <div class="bs-example">
+    <nav style="background-color: rgb(201, 18, 43);" class="navbar navbar-expand-md navbar-dark fixed-top">
+      <a href="" class="navbar-brand"><i class=""></i>&nbsp; Video Summary Genetator</a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white;" href=""><i class="fas fa-user"></i>&nbsp; Profile</i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white;" href="logout"><i class="fas fa-user-shield"></i>&nbsp; Log out</i></a>
+                </li>     
+            </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <h1>YouTube Video Summarizer</h1>
+   <main style="padding: 20px; width: 80%; max-width: 900px;">
+    <div class="input-wrapper">
+      <input type="text" id="youtubeUrl" placeholder="Paste YouTube video link..." />
+      <button onclick="getSummary()">Summarize</button>
+    </div>
+   </main>
+
+    <div id="result" style="margin-top: 30px;"></div>
+
+  <script>
+    async function getSummary() {
+      const url = document.getElementById("youtubeUrl").value;
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "<p style='color:blue;'>Processing... please wait</p>";
+
+      try {
+        const response = await fetch("/summarize", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url }),
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          resultDiv.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
+        } else {
+          resultDiv.innerHTML = `
+            <h3>${data.title}</h3>
+            <p><strong>Channel:</strong> ${data.channel}</p>
+            <iframe width="560" height="315"
+              src="https://www.youtube.com/embed/${data.video_id}"
+              title="YouTube video player"
+              frameborder="0"
+              allowfullscreen>
+            </iframe>
+            <h4>AI Summary:</h4>
+            <p style="background: #222; padding: 10px; border-radius: 5px;">${data.summary}</p>
+            <h4>Transcript:</h4>
+            <pre style="white-space: pre-wrap; background: #2a2a2a; padding: 10px; border-radius: 5px; line-height: 1.6em;">${data.transcript}</pre>
+          `;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `<p style="color:red;">An error occurred: ${error.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
